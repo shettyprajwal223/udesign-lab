@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDesign Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .nav-item {
+            position: relative;
+        }
+        .nav-item:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-item:hover:after {
+            width: 100%;
+        }
+        .active:after {
+            width: 100%;
+        }
+        
+        /* Creative Logo Styling with black background */
+        .logo-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            background: #000000;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .logo-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.4);
+        }
+        
+        .logo-container:hover .logo-glow {
+            opacity: 0.8;
+        }
+        
+        /* Animation state management for text color cycling */
+        .logo-text span {
+            display: inline-block;
+            transition: all 0.3s ease;
+            color: white; /* Default state */
+        }
+        
+        .logo-container:hover .bubble {
+            animation-duration: calc(var(--speed) * 0.7s);
+        }
+        
+        .logo-glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, transparent 70%);
+            filter: blur(20px);
+            opacity: 0.5;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
+        
+        .logo-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+        
+        .logo-u {
+            color: #4f46e5;
+            text-shadow: 0 0 10px rgba(79, 70, 229, 0.7);
+            font-size: 2.25rem;
+            margin-right: 2px;
+        }
+        
+        .logo-lab {
+            position: relative;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-left: 4px;
+            animation: blinkLab 4s infinite;
+        }
+        
+        @keyframes blinkLab {
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            25% { opacity: 1; filter: brightness(1.5); }
+            26% { opacity: 0.7; filter: brightness(0.8); }
+            27% { opacity: 1; filter: brightness(1.2); }
+            40% { opacity: 1; filter: brightness(1); }
+            78% { opacity: 1; filter: brightness(1); }
+            80% { opacity: 0.5; filter: brightness(0.8); }
+            82% { opacity: 1; filter: brightness(1.5); }
+            84% { opacity: 0.8; filter: brightness(1); }
+            86% { opacity: 1; filter: brightness(1.2); }
+        }
+        
+        .logo-lab::before {
+            content: "LAB";
+            position: absolute;
+            left: 4px;
+            top: 0;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: blur(4px);
+            opacity: 0.7;
+        }
+        
+        .logo-icon {
+            position: relative;
+            margin-right: 10px;
+        }
+        
+        .logo-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #06b6d4;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #06b6d4;
+        }
+        
+        .logo-spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: spark 2s ease-in-out infinite;
+        }
+        
+        .logo-spark:nth-child(1) {
+            top: 0;
+            left: 50%;
+            animation-delay: 0s;
+        }
+        
+        .logo-spark:nth-child(2) {
+            top: 50%;
+            right: 0;
+            animation-delay: 0.5s;
+        }
+        
+        .logo-spark:nth-child(3) {
+            bottom: 0;
+            left: 50%;
+            animation-delay: 1s;
+        }
+        
+        .logo-spark:nth-child(4) {
+            top: 50%;
+            left: 0;
+            animation-delay: 1.5s;
+        }
+        
+        /* Custom Flask with Flat Bottom, Conical Body, and Cylindrical Neck - Seamless Connection */
+        .flask-container {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            z-index: 2;
+        }
+        
+        .flask {
+            position: relative;
+            transform: scale(0.8);
+        }
+        
+        /* Flask components */
+        .flask-assembly {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Cylindrical neck - Modified for seamless connection */
+        .flask-neck {
+            position: relative;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            z-index: 3;
+        }
+        
+        /* Rim at the top of the neck */
+        .flask-rim {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 16px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            z-index: 4;
+        }
+        
+        /* Conical body - Modified for seamless connection */
+        .flask-body {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            margin-top: -1px; /* Ensure proper connection with neck */
+            z-index: 2;
+        }
+        
+        /* Create the conical shape - Modified for seamless connection */
+        .flask-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+            clip-path: polygon(33% 0, 67% 0, 100% 100%, 0 100%);
+            z-index: 1;
+        }
+        
+        /* Liquid inside the flask */
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 75%;
+            background: linear-gradient(to bottom, rgba(79, 70, 229, 0.7), rgba(6, 182, 212, 0.9));
+            clip-path: polygon(33% 0, 67% 0, 100% 100%, 0 100%);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+            z-index: 2;
+        }
+        
+        /* Liquid surface highlight */
+        .liquid::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
+            border-radius: 50% 50% 0 0 / 8px;
+        }
+        
+        /* Flat bottom of the flask */
+        .flask-bottom {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 36px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: none;
+            border-radius: 0 0 3px 3px;
+            z-index: 3;
+        }
+        
+        /* Bubbles container */
+        .bubbles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            z-index: 3;
+        }
+        
+        /* Individual bubbles */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: rise 3s infinite ease-in;
+        }
+        
+        .bubble:nth-child(1) {
+            width: 5px;
+            height: 5px;
+            left: 18px;
+            bottom: 0;
+            animation-delay: 0.2s;
+            --speed: 3;
+        }
+        
+        .bubble:nth-child(2) {
+            width: 3px;
+            height: 3px;
+            left: 10px;
+            bottom: 0;
+            animation-delay: 1s;
+            --speed: 4;
+        }
+        
+        .bubble:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            left: 22px;
+            bottom: 0;
+            animation-delay: 1.5s;
+            --speed: 2.5;
+        }
+        
+        .bubble:nth-child(4) {
+            width: 4px;
+            height: 4px;
+            left: 15px;
+            bottom: 0;
+            animation-delay: 0.7s;
+            --speed: 3.5;
+        }
+        
+        .bubble:nth-child(5) {
+            width: 2px;
+            height: 2px;
+            left: 25px;
+            bottom: 0;
+            animation-delay: 2s;
+            --speed: 3.2;
+        }
+        
+        /* Enhanced Search Bar */
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+                        0 0 0 1px rgba(59, 130, 246, 0.1);
+            color: #1e293b;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input::placeholder {
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+                        0 0 0 1px rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+                        0 0 0 2px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 100%);
+            transform: translateY(-2px);
+        }
+        
+        .search-input:focus::placeholder {
+            opacity: 0.5;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .search-input:focus + .search-icon {
+            color: #3b82f6;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Auth button styling */
+        .auth-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: #ff4b2b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 75, 43, 0.4);
+            background: #e63e1e;
+        }
+        
+        .auth-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(255, 75, 43, 0.4);
+        }
+        
+        .help-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .help-button:hover {
+            background: #f8fafc;
+            color: #3b82f6;
+            border-color: #bfdbfe;
+            transform: translateY(-1px);
+        }
+        
+        .help-button:active {
+            transform: translateY(0);
+        }
+        
+        .nav-divider {
+            width: 1px;
+            height: 24px;
+            background: #e2e8f0;
+            margin: 0 0.5rem;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+            100% { transform: translateY(-50%) scale(1); }
+        }
+        
+        @keyframes rise {
+            0% {
+                bottom: 0;
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.7;
+            }
+            100% {
+                bottom: 100%;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes spark {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(2); opacity: 0.5; }
+        }
+        
+        /* Forward animation for hover */
+        @keyframes colorCycle {
+            0% { color: white; text-shadow: none; }
+            100% { color: #06b6d4; text-shadow: 0 0 10px rgba(6, 182, 212, 0.7); }
+        }
+        
+        /* Reverse animation for non-hover state */
+        @keyframes colorCycleReverse {
+            0% { color: #06b6d4; text-shadow: 0 0 10px rgba(6, 182, 212, 0.7); }
+            100% { color: white; text-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+        <header class="container mx-auto px-4 py-6">
+            <!-- Creative Logo Section -->
+            <div class="flex flex-col items-center mb-8">
+                <div class="logo-container" id="logoContainer">
+                    <div class="logo-glow"></div>
+                    <div class="logo-content">
+                        <div class="logo-icon">
+                            <div class="logo-dot"></div>
+                            <div class="logo-spark"></div>
+                            <div class="logo-spark"></div>
+                            <div class="logo-spark"></div>
+                            <div class="logo-spark"></div>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-u logo-letter" style="--i:1">U</span>
+                            <span class="logo-letter" style="--i:2">D</span>
+                            <span class="logo-letter" style="--i:3">E</span>
+                            <span class="logo-letter" style="--i:4">S</span>
+                            <span class="logo-letter" style="--i:5">I</span>
+                            <span class="logo-letter" style="--i:6">G</span>
+                            <span class="logo-letter" style="--i:7">N</span>
+                            <span class="logo-lab" style="--i:8">LAB</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Flask with Flat Bottom, Conical Body, and Cylindrical Neck - Seamless Connection -->
+                    <div class="flask-container">
+                        <div class="flask">
+                            <div class="flask-assembly">
+                                <!-- Cylindrical neck with rim -->
+                                <div class="flask-neck">
+                                    <div class="flask-rim"></div>
+                                </div>
+                                
+                                <!-- Conical body - Connector removed for seamless look -->
+                                <div class="flask-body">
+                                    <div class="liquid"></div>
+                                    <div class="bubbles">
+                                        <div class="bubble"></div>
+                                        <div class="bubble"></div>
+                                        <div class="bubble"></div>
+                                        <div class="bubble"></div>
+                                        <div class="bubble"></div>
+                                    </div>
+                                    <div class="flask-bottom"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Search and Icons Section -->
+            <div class="flex flex-wrap items-center justify-between mb-6">
+                <div class="w-full md:w-1/2 mb-4 md:mb-0">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search for amazing products..." class="search-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <button class="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        <span class="ml-1">Wishlist</span>
+                    </button>
+                    
+                    <button class="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        <span class="ml-1">Cart</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Categories with Sign In/Up and Help on the right -->
+            <nav class="flex flex-wrap justify-between items-center border-b border-gray-200 pb-3">
+                <div class="flex flex-wrap space-x-1 md:space-x-8">
+                    <a href="#" class="nav-item active px-3 py-2 text-blue-600 font-medium">Trending</a>
+                    <a href="#" class="nav-item px-3 py-2 text-gray-600 hover:text-blue-600 transition-colors">Shoes</a>
+                    <a href="#" class="nav-item px-3 py-2 text-gray-600 hover:text-blue-600 transition-colors">T-Shirts</a>
+                    <a href="#" class="nav-item px-3 py-2 text-gray-600 hover:text-blue-600 transition-colors">Shirts</a>
+                    <a href="#" class="nav-item px-3 py-2 text-gray-600 hover:text-blue-600 transition-colors">Bags</a>
+                </div>
+                
+                <!-- Sign In/Up and Help Section -->
+                <div class="flex items-center mt-3 md:mt-0">
+                    <button class="auth-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Sign In/Up
+                    </button>
+                    
+                    <div class="nav-divider mx-3"></div>
+                    
+                    <button class="help-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Help
+                    </button>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Main Content Area (Placeholder) -->
+        <main class="container mx-auto px-4 py-8">
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Trending Products</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Sample product cards -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition-transform hover:scale-105">
+                        <div class="h-40 bg-blue-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800">Trending Item</h3>
+                            <p class="text-blue-600 font-bold mt-1">$49.99</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition-transform hover:scale-105">
+                        <div class="h-40 bg-green-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800">Popular Item</h3>
+                            <p class="text-blue-600 font-bold mt-1">$39.99</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition-transform hover:scale-105">
+                        <div class="h-40 bg-purple-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800">New Arrival</h3>
+                            <p class="text-blue-600 font-bold mt-1">$59.99</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 transition-transform hover:scale-105">
+                        <div class="h-40 bg-yellow-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800">Featured Item</h3>
+                            <p class="text-blue-600 font-bold mt-1">$69.99</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoContainer = document.getElementById('logoContainer');
+            const logoLetters = document.querySelectorAll('.logo-letter');
+            const targetColor = '#06b6d4';
+            const targetShadow = '0 0 10px rgba(6, 182, 212, 0.7)';
+            
+            // Set initial state for all letters
+            logoLetters.forEach(letter => {
+                letter.style.color = 'white';
+                letter.style.textShadow = 'none';
+            });
+            
+            // Special case for the U letter
+            const uLetter = document.querySelector('.logo-u');
+            if (uLetter) {
+                uLetter.style.color = '#4f46e5';
+                uLetter.style.textShadow = '0 0 10px rgba(79, 70, 229, 0.7)';
+            }
+            
+            // Function to animate letters from left to right (on hover)
+            function animateForward() {
+                logoLetters.forEach((letter, index) => {
+                    if (letter.classList.contains('logo-lab')) return; // Skip LAB text
+                    
+                    setTimeout(() => {
+                        letter.style.transition = 'color 0.3s ease, text-shadow 0.3s ease';
+                        letter.style.color = targetColor;
+                        letter.style.textShadow = targetShadow;
+                    }, index * 100);
+                });
+            }
+            
+            // Function to animate letters from right to left (on mouse leave)
+            function animateReverse() {
+                const regularLetters = Array.from(logoLetters).filter(
+                    letter => !letter.classList.contains('logo-lab')
+                );
+                
+                // Reverse the animation order (right to left)
+                for (let i = regularLetters.length - 1; i >= 0; i--) {
+                    const letter = regularLetters[i];
+                    const delay = (regularLetters.length - 1 - i) * 100;
+                    
+                    setTimeout(() => {
+                        letter.style.transition = 'color 0.3s ease, text-shadow 0.3s ease';
+                        
+                        // Special case for U letter
+                        if (letter.classList.contains('logo-u')) {
+                            letter.style.color = '#4f46e5';
+                            letter.style.textShadow = '0 0 10px rgba(79, 70, 229, 0.7)';
+                        } else {
+                            letter.style.color = 'white';
+                            letter.style.textShadow = 'none';
+                        }
+                    }, delay);
+                }
+            }
+            
+            // Add hover event listener
+            logoContainer.addEventListener('mouseenter', animateForward);
+            
+            // Add mouseleave event listener for reverse animation
+            logoContainer.addEventListener('mouseleave', animateReverse);
+        });
+    </script>
+</body>
+</html>
